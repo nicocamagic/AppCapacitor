@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>El Mago Interactivo</title>
+  <title>app magia Interactiva</title>
   <style>
     body {
       background: radial-gradient(circle, #1f1c2c, #928dab);
@@ -55,7 +55,7 @@
       background-color: rgba(255, 255, 255, 0.1);
       padding: 10px;
       border-radius: 8px;
-      animation: fadeIn 1s ease-in;
+      animation: fadeIn 0.5s ease-in;
     }
 
     @keyframes fadeIn {
@@ -120,10 +120,7 @@
       const tabla = document.getElementById("tabla");
       tabla.innerHTML = "";
       for (let i = 1; i <= 99; i++) {
-        const suma = Math.floor(i / 10) + (i % 10);
-        const resultado = i - suma;
-        const simbolo = (resultado % 9 === 0) ? simboloMagico : simbolos[Math.floor(Math.random() * simbolos.length)];
-
+        let simbolo = (i % 9 === 0) ? simboloMagico : simbolos[Math.floor(Math.random() * simbolos.length)];
         const celda = document.createElement("div");
         celda.classList.add("celda");
         celda.textContent = `${i}: ${simbolo}`;
