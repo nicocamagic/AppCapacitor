@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>El Mago Interactivo</title>
+  <style>
+    body {
+      background: radial-gradient(circle, #1f1c2c, #928dab);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .carta {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 20px #ff00c866;
+      max-width: 700px;
+      margin: auto;
+      transition: all 0.5s ease-in-out;
+    }
+
+    button {
+      background-color: #ff00c8;
+      border: none;
+      padding: 15px 25px;
+      color: white;
+      font-weight: bold;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #e600b8;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #tabla {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .celda {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #simboloFinal {
+      font-size: 3em;
+      margin-top: 30px;
+      color: #00ffc3;
+      text-shadow: 0 0 10px #00ffc3, 0 0 30px #00ffc3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carta">
+    <h1>✨ El Mago Interactivo ✨</h1>
+    <div id="instrucciones">
+      <p id="paso">Haz clic para comenzar el truco...</p>
+      <button onclick="siguientePaso()">▶️ Siguiente paso</button>
+    </div>
+
+    <div id="tablaSimbolos" class="hidden">
+      <h2>Busca tu número y recuerda su símbolo</h2>
+      <div id="tabla"></div>
+      <button onclick="mostrarSimbolo()">🔮 Revelar símbolo mágico</button>
+    </div>
+
+    <div id="revelacion" class="hidden">
+      <h2>Estás pensando en este símbolo:</h2>
+      <div id="simboloFinal"></div>
+    </div>
+  </div>
+
+  <script>
+    const simbolos = ['★', '☯', '☠', '♛', '♞', '♠', '♦', '♥', '♣', '☂'];
+    const simboloMagico = simbolos[Math.floor(Math.random() * simbolos.length)];
+    const pasos = [
+      "Piensa en un número de dos cifras (por ejemplo, 42).",
+      "Suma ambos dígitos (por ejemplo, 4 + 2 = 6).",
+      "Resta ese total a tu número original (42 - 6 = 36).",
+      "Busca tu nuevo número en la tabla que aparece y memoriza su símbolo."
+    ];
+
+    let pasoActual = 0;
+
+    function siguientePaso() {
+      if (pasoActual < pasos.length) {
+        document.getElementById("paso").innerText = pasos[pasoActual];
+        pasoActual++;
+        if (pasoActual === pasos.length) {
+          document.getElementById("instrucciones").classList.add("hidden");
+          generarTabla();
+          document.getElementById("tablaSimbolos").classList.remove("hidden");
+        }
+      }
+    }
+
+    function generarTabla() {
+      const tabla = document.getElementById("tabla");
+      tabla.innerHTML = "";
+      for (let i = 1; i <= 99; i++) {
+        const suma = Math.floor(i / 10) + (i % 10);
+        const resultado = i - suma;
+        const simbolo = (resultado % 9 === 0) ? simboloMagico : simbolos[Math.floor(Math.random() * simbolos.length)];
+
+        const celda = document.createElement("div");
+        celda.classList.add("celda");
+        celda.textContent = `${i}: ${simbolo}`;
+        tabla.appendChild(celda);
+      }
+    }
+
+    function mostrarSimbolo() {
+      document.getElementById("tablaSimbolos").classList.add("hidden");
+      document.getElementById("revelacion").classList.remove("hidden");
+      document.getElementById("simboloFinal").innerText = simboloMagico;
+    }
+  </script>
+
+</body>
+</html>
